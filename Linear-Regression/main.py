@@ -47,12 +47,12 @@ class LinearRegression:
         Computes analytical values of weights.
         weights = ([X.T.X]^-1).X.T.y
         '''
-        transpose_x = np.dot(np.transpose(self.X), self.X)
+        transpose_x = np.linalg.inv(np.transpose(self.X).dot(self.X))
         transpose_y = np.dot(np.transpose(self.X), self.y)
 
         #Solve.
         try:
-            self.weights = np.linalg.solve(transpose_x, transpose_y)
+            self.bias, *self.weights = transpose_x.dot(transpose_y)
             return self.weights
         except np.linalg.LinAlgError:
             return None
